@@ -20,6 +20,7 @@ export class App extends Component {
                 this.props.displayAllCharacters(response.data)
                 this.setState({ filteredCharacters: response.data })
             })
+        console.log(localStorage)
     }
 
     getCharacterInfo = url => {
@@ -39,7 +40,9 @@ export class App extends Component {
     }
 
     bookmarkCharacter = character => {
-        console.log(character)
+        const previousBookmarkedUrls = localStorage.getItem("bookmarked urls")
+        if (previousBookmarkedUrls) localStorage.setItem("bookmarked urls", previousBookmarkedUrls + "\n" + character.url)
+        else localStorage.setItem("bookmarked urls", character.url)
     }
 
     render() {
@@ -54,7 +57,7 @@ export class App extends Component {
                     width={100}
                 />
                 {
-                    characters.length > 0 ? <SearchField
+                    characters.length ? <SearchField
                         placeholder="Search..."
                         onSearchClick={this.searchName}
                         onChange={this.searchName}
