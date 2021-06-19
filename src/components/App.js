@@ -11,6 +11,7 @@ export class App extends Component {
         this.state = { filteredCharacters: [], character: {}, value: "" }
         this.getCharacterInfo = this.getCharacterInfo.bind(this)
         this.searchName = this.searchName.bind(this)
+        this.bookmarkCharacter = this.bookmarkCharacter.bind(this)
     }
 
     componentDidMount() {
@@ -35,7 +36,10 @@ export class App extends Component {
             if (character.name.toLowerCase().includes(value.toLowerCase())) filteredCharacters.push(character)
         })
         this.setState({ filteredCharacters: filteredCharacters })
-        console.log(filteredCharacters)
+    }
+
+    bookmarkCharacter = character => {
+        console.log(character)
     }
 
     render() {
@@ -59,7 +63,7 @@ export class App extends Component {
                 <ol>
                     {this.state.filteredCharacters.map(character => (
                         <li key={character.url}><u onClick={() => this.getCharacterInfo(character.url)}>{character.name}</u>
-                            <button>
+                            <button onClick={() => this.bookmarkCharacter(character)}>
                                 Bookmark it
                             </button></li>
                     ))}
