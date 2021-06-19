@@ -15,7 +15,10 @@ export class App extends Component {
 
     componentDidMount() {
         axios.get('https://www.anapioficeandfire.com/api/characters')
-            .then(response => this.props.displayAllCharacters(response.data))
+            .then(response => {
+                this.props.displayAllCharacters(response.data)
+                this.setState({ filteredCharacters: response.data })
+            })
     }
 
     getCharacterInfo = url => {
@@ -50,10 +53,11 @@ export class App extends Component {
                     characters.length > 0 ? <SearchField
                         placeholder="Search..."
                         onSearchClick={this.searchName}
+                        onChange={this.searchName}
                     /> : null
                 }
                 <ol>
-                    {characters.map(character => (
+                    {this.state.filteredCharacters.map(character => (
                         <li key={character.url}><u onClick={() => this.getCharacterInfo(character.url)}>{character.name}</u>
                             <button>
                                 Bookmark it
